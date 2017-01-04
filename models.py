@@ -1,5 +1,5 @@
 import arcade.key
-from random import randint
+from random import randint, random
 
 GRAVITY = -2
 MAX_VX = 3
@@ -46,20 +46,39 @@ class Man(Model):
                 self.is_jump = False
             
 class Kryptonite(Model):
-    def __init__(self, world, x, y):
-        self.world = world
-        self.x = x
-        self.y = y 
+    
+    def __init__(self, world, x, y, vx, vy):
+        super().__init__(world, x, y, 0)
+        self.vx = vx
+        self.vy = vy
+        self.angle = randint(0,359)
+    
+    def random_direction(self):
+        self.vx = 5 * random()
+        self.vy = 5 * random()
+
+    def animate(self, delta):
+        self.x += self.vx
+        self.y += self.vy
+        self.angle += 1
+
         
 
 class World:
+    NUM_KRYP = 8
+
     def __init__(self, width, height):
         self.width = width
         self.height = height
         
         self.man = Man(self, 0 , 300 , 0)
 
-        self.kryptonite = Kryptonite(self, 400, 400)
+        # self.kryptonite = Kryptonite(self, 400, 400)
+        self.kryptonite_list = []
+        for i in range(World.NUM_KRYP):
+            kryptonite = Kryptonite(self, 0, 0, 0, 0)
+            kryptonite.random_direction()
+            self.kryptonite_list.append(kryptonite)
         
 
     def animate(self, delta):

@@ -28,8 +28,12 @@ class SupermanGameWindow(arcade.Window):
         arcade.set_background_color(arcade.color.BLACK)
         self.world = World(SCREEN_WIDTH, SCREEN_HEIGHT)
         self.man_sprite = ModelSprite('images/superman.png', model = self.world.man)
-        self.kryptonite_sprite = ModelSprite('images/kryptonite.png', model = self.world.kryptonite)
-    
+        # self.kryptonite_sprite = ModelSprite('images/kryptonite.png', model = self.world.kryptonite)
+        self.kryptonite_sprites = []
+        
+        for kryptonite in self.world.kryptonite_list:
+            self.kryptonite_sprites.append(ModelSprite('images/kryptonite.png',scale=0.5,model = kryptonite))
+
     def animate(self, delta):
         self.world.animate(delta)
 
@@ -40,7 +44,9 @@ class SupermanGameWindow(arcade.Window):
         arcade.start_render()
         
         self.man_sprite.draw()
-        self.kryptonite_sprite.draw()
+        # self.kryptonite_sprite.draw()
+        for sprite in  self.kryptonite_sprites:
+            sprite.draw()
 
         gl.glDisable(gl.GL_TEXTURE_2D)
 
