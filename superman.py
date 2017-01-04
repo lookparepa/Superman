@@ -4,8 +4,8 @@ from models import World, Man
 
 import pyglet.gl as gl
 
-SCREEN_WIDTH = 900
-SCREEN_HEIGHT = 500
+SCREEN_WIDTH = 1300
+SCREEN_HEIGHT = 800
 
 class ModelSprite(arcade.Sprite):
 
@@ -48,6 +48,13 @@ class SupermanGameWindow(arcade.Window):
         arcade.start_render()
         self.draw_walls()
         self.man_sprite.draw()
+        
+        if not self.world.man.is_touch:
+            arcade.draw_text("DISTANCE:"+str(self.world.score), self.world.man.x + (SCREEN_WIDTH // 2), self.height -30, arcade.color.WHITE, 20)
+            
+        else:
+            arcade.draw_text("HIGH SCORE : "+str(self.world.score), self.world.man.x + (SCREEN_WIDTH // 2) -650, self.height -200, arcade.color.RED, 30)
+            arcade.draw_text("MISSION FAIL", self.world.man.x + (SCREEN_WIDTH // 2) -750, self.height -300, arcade.color.RED, 60)
 
         gl.glDisable(gl.GL_TEXTURE_2D)
 

@@ -78,8 +78,8 @@ class World:
         init = 150
 
         for i in range(1,100):
-            self.walls.append(Walls(self, init, 600, 150, 102))
-            self.walls.append(Walls(self, init, randint(120,320), 150,600))
+            self.walls.append(Walls(self, init, 700, 200, 50))
+            self.walls.append(Walls(self, init, randint(250,500), 150,600))
             init += 150
 		
         self.walls.append(Walls(self, 15150, 900, 50, 10000))
