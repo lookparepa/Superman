@@ -1,6 +1,6 @@
 import arcade
 
-from models import World, Man
+from models import World, Man 
 
 import pyglet.gl as gl
 
@@ -28,25 +28,26 @@ class SupermanGameWindow(arcade.Window):
         arcade.set_background_color(arcade.color.BLACK)
         self.world = World(SCREEN_WIDTH, SCREEN_HEIGHT)
         self.man_sprite = ModelSprite('images/superman.png', model = self.world.man)
-        # self.kryptonite_sprite = ModelSprite('images/kryptonite.png', model = self.world.kryptonite)
-        self.kryptonite_sprites = []
-        
-        for kryptonite in self.world.kryptonite_list:
-            self.kryptonite_sprites.append(ModelSprite('images/kryptonite.png',scale=0.5,model = kryptonite))
 
     def animate(self, delta):
         self.world.animate(delta)
 
+    def draw_walls(self):
+        walls = self.world.walls
+        for w in walls:
+            arcade.draw_rectangle_filled(w.x + w.width/2 , w.y - w.height/2,
+							             w.width, w.height,
+										 arcade.color.GREEN)
+        
     def on_draw(self):
 
-        arcade.set_viewport(self.world.man.x - SCREEN_WIDTH/2, self.world.man.x + SCREEN_WIDTH/2, 0, SCREEN_HEIGHT)
+        arcade.set_viewport(self.world.man.x - SCREEN_WIDTH/2 +200, 
+                            self.world.man.x + SCREEN_WIDTH/2 +200, 
+                            0, SCREEN_HEIGHT)
 
         arcade.start_render()
-        
+        self.draw_walls()
         self.man_sprite.draw()
-        # self.kryptonite_sprite.draw()
-        for sprite in  self.kryptonite_sprites:
-            sprite.draw()
 
         gl.glDisable(gl.GL_TEXTURE_2D)
 
