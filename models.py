@@ -15,7 +15,7 @@ class Model:
         self.angle = 0
 
 class Man(Model):
-    def __init__(self, world, x, y, base_y):
+    def __init__(self, world, x, y, ground_y):
         super().__init__(world, x, y, 0)
         self.vx = 0
         self.vy = 0
@@ -23,7 +23,7 @@ class Man(Model):
         self.is_jump = False
         self.is_touch =False
 
-        self.base_y = base_y
+        self.ground_y = ground_y
 
     def jump(self):
         if not self.is_jump:

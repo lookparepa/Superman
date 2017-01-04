@@ -35,14 +35,14 @@ class SupermanGameWindow(arcade.Window):
     def draw_walls(self):
         walls = self.world.walls
         for w in walls:
-            arcade.draw_rectangle_filled(w.x + w.width/2 , w.y - w.height/2,
+            arcade.draw_rectangle_filled(w.x + w.width//2 , w.y - w.height//2,
 							             w.width, w.height,
 										 arcade.color.GREEN)
         
     def on_draw(self):
 
-        arcade.set_viewport(self.world.man.x - SCREEN_WIDTH/2 +200, 
-                            self.world.man.x + SCREEN_WIDTH/2 +200, 
+        arcade.set_viewport(self.world.man.x - SCREEN_WIDTH//2 +200, 
+                            self.world.man.x + SCREEN_WIDTH//2 +200, 
                             0, SCREEN_HEIGHT)
 
         arcade.start_render()
