@@ -3,7 +3,7 @@ from random import randint, random
 
 GRAVITY = -1
 MAX_VX = 3
-ACCX = 1
+ACCX = 2
 JUMP_VY = 15
 
 
@@ -14,15 +14,14 @@ class Model:
         self.y = y
         self.angle = 0
 
-class Man(Model):
+class Superman(Model):
     def __init__(self, world, x, y, ground_y):
         super().__init__(world, x, y, 0)
         self.vx = 0
         self.vy = 0
         
         self.is_jump = False
-        self.is_touch =False
-
+        self.is_collide_with_kryptonite =False
         self.ground_y = ground_y
 
     def jump(self):
@@ -31,20 +30,20 @@ class Man(Model):
             self.vy = JUMP_VY
             self.count = 0
     
-    def touch(self):
-        walls = self.world.walls
-        for w in walls:
-            if self.x >=  w.x and self.x <= w.x+w.width:
-                if self.y >= w.y-w.height and self.y <= w.y:
-                    self.is_touch = True
+    def collide_with_kryptonite(self):
+        kryptonites = self.world.kryptonites
+        for k in kryptonites:
+            if self.x >=  k.x and self.x <= k.x+k.width:
+                if self.y >= k.y-k.height and self.y <= k.y:
+                    self.is_collide_with_kryptonite = True
             
     def animate(self, delta):
         if self.vx < MAX_VX:
             self.vx += ACCX
         
-        self.touch()
+        self.collide_with_kryptonite()
         
-        if self.is_touch == True:
+        if self.is_collide_with_kryptonite == True:
             self.y -= 10
         
         self.x += self.vx
@@ -59,7 +58,7 @@ class Man(Model):
                 self.vy = 0
                 self.is_jump = False
 
-class Walls:
+class Kryptonites:
     def __init__(self, world, x, y, width, height):
         self.world = world
         self.x = x
@@ -73,24 +72,24 @@ class World:
         self.width = width
         self.height = height
         self.score = 0
-        self.man = Man(self, 0, 300 , 0)
-        self.walls = []
+        self.superman = Superman(self, 0, 500 , 0)
+        self.kryptonites = []
         init = 150
 
-        for i in range(1,100):
-            self.walls.append(Walls(self, init, 700, 200, 50))
-            self.walls.append(Walls(self, init, randint(250,500), 150,600))
+        for i in range(1,250):
+            self.kryptonites.append(Kryptonites(self, init, 700, 200, 50))
+            self.kryptonites.append(Kryptonites(self, init, randint(250,500), 150,600))
             init += 150
 		
-        self.walls.append(Walls(self, 15150, 900, 50, 10000))
-        self.walls.append(Walls(self, 15150, 600, 50, 400))
+        self.kryptonites.append(Kryptonites(self, 15150, 900, 50, 10000))
+        self.kryptonites.append(Kryptonites(self, 15150, 600, 50, 400))
 
     def animate(self, delta):
-        self.man.animate(delta)
-        if self.man.x %49 == 0:
-            if not self.man.is_touch:
+        self.superman.animate(delta)
+        if self.superman.x %49 == 0:
+            if not self.superman.is_collide_with_kryptonite:
                 self.score += 1
 
     def on_key_press(self, key, key_modifiers):
         if key == arcade.key.SPACE:
-            self.man.jump()
+            self.superman.jump()
