@@ -15,14 +15,14 @@ class Model:
         self.angle = 0
 
 class Superman(Model):
-    def __init__(self, world, x, y, ground_y):
+    def __init__(self, world, x, y, bottom_y):
         super().__init__(world, x, y, 0)
         self.vx = 0
         self.vy = 0
         
         self.is_jump = False
         self.is_collide_with_kryptonite =False
-        self.ground_y = ground_y
+        self.bottom_y = bottom_y
 
     def jump(self):
         if not self.is_jump:
@@ -71,22 +71,26 @@ class World:
     def __init__(self, width, height):
         self.width = width
         self.height = height
-        self.score = 0
+
+        
         self.superman = Superman(self, 0, 500 , 0)
+        self.init_kryptonites()
+
+        self.score = 0
+       
+
+    def init_kryptonites(self):
         self.kryptonites = []
-        init = 150
+        init = 200
 
         for i in range(1,250):
             self.kryptonites.append(Kryptonites(self, init, 700, 200, 50))
-            self.kryptonites.append(Kryptonites(self, init, randint(250,500), 150,600))
-            init += 150
-		
-        self.kryptonites.append(Kryptonites(self, 15150, 900, 50, 10000))
-        self.kryptonites.append(Kryptonites(self, 15150, 600, 50, 400))
+            self.kryptonites.append(Kryptonites(self, init, randint(250,500), 200,600))
+            init += 200
 
     def animate(self, delta):
         self.superman.animate(delta)
-        if self.superman.x %49 == 0:
+        if self.superman.x %30 == 0:
             if not self.superman.is_collide_with_kryptonite:
                 self.score += 1
 

@@ -51,6 +51,7 @@ class SupermanGameWindow(arcade.Window):
         
         if not self.world.superman.is_collide_with_kryptonite:
             arcade.draw_text("DISTANCE:"+str(self.world.score), self.world.superman.x + (SCREEN_WIDTH // 2), self.height -30, arcade.color.WHITE, 20)
+            arcade.draw_text("!!!BEWARE OF KRYPTONITE!!!", self.world.superman.x , self.height -30, arcade.color.GREEN, 20)
             
         else:
             arcade.draw_text("HIGH SCORE : "+str(self.world.score), self.world.superman.x + (SCREEN_WIDTH // 2) -650, self.height -200, arcade.color.RED, 30)
